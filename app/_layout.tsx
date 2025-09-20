@@ -1,22 +1,23 @@
-'@react-navigation/native';
-import { Stack } from 'expo-router';
+"@react-navigation/native";
+import { Stack } from "expo-router";
 
-import 'react-native-reanimated';
-
+import "react-native-reanimated";
 
 export const unstable_settings = {
-  anchor: '(tabs)',
+  anchor: "(tabs)",
 };
 
 export default function RootLayout() {
-
   return (
-
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-
-
+    <Stack>
+      <Stack.Screen
+        name='(tabs)'
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='modal'
+        options={{ presentation: "modal", title: "Modal" }}
+      />
+    </Stack>
   );
 }
