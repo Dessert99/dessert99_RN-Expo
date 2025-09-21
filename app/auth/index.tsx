@@ -1,5 +1,5 @@
 import CustomButton from "@/components/CustomButton";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { Image, StyleSheet, View } from "react-native";
 
 export default function AuthScreen() {
@@ -12,7 +12,10 @@ export default function AuthScreen() {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <CustomButton label='로그인하기' />
+        <CustomButton
+          label='로그인하기'
+          onPress={() => router.push("/auth/login")}
+        />
         <Link
           href={"/"}
           style={styles.signupText}>
