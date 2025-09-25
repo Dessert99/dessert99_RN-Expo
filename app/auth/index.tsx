@@ -17,7 +17,7 @@ export default function AuthScreen() {
           onPress={() => router.push("/auth/login")}
         />
         <Link
-          href={"/"}
+          href={"/auth/signup"}
           style={styles.signupText}>
           이메일로 가입하기
         </Link>

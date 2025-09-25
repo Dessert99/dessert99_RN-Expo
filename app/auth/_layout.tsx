@@ -35,6 +35,15 @@ export default function AuthLaytout() {
         options={{
           title: "이메일 로그인",
           headerShown: true,
+          headerBackButtonDisplayMode: "minimal", // 헤더 백버튼 없애기
+        }}
+      />
+      <Stack.Screen
+        name='signup'
+        options={{
+          title: "회원가입",
+          headerShown: true,
+          headerBackButtonDisplayMode: "minimal",
         }}
       />
     </Stack>
