@@ -1,5 +1,6 @@
 import { colors } from "@/constants";
 import React from "react";
+
 import {
   StyleSheet,
   Text,
@@ -11,21 +12,39 @@ import {
 interface InputFieldProps extends TextInputProps {
   label?: string;
   variant?: "filled" | "standard" | "outline";
+  error?: string;
+  ref?: React.Ref<TextInput>; // 타입 설정
 }
 
-function InputField({ label, variant = "filled", ...props }: InputFieldProps) {
+function InputField({
+  label,
+  variant = "filled",
+  error = "",
+  ref, //React 19부터 props로 넣을 수 있다.
+  ...props
+}: InputFieldProps) {
   return (
     <View>
       {
         label && <Text style={styles.label}>{label}</Text> //라벨이 있을때만 사용
       }
-      <View style={[styles.container, styles[variant]]}>
+      <View
+        style={[
+          styles.container,
+          styles[variant],
+          Boolean(error) && styles.inputError,
+        ]}>
         <TextInput
+          ref={ref}
           placeholderTextColor={colors.GRAY_500}
           style={styles.input}
           {...props}
+          autoCapitalize='none' // 첫글자 대문자 끄기
+          spellCheck={false}
+          autoCorrect={false}
         />
       </View>
+      {Boolean(error) && <Text style={styles.error}>{error}</Text>}
     </View>
   );
 }
@@ -48,6 +67,12 @@ const styles = StyleSheet.create({
   outline: {},
   input: {
     fontSize: 16,
+  },
+  error: {
+    color: colors.RED_500,
+  },
+  inputError: {
+    backgroundColor: colors.RED_100,
   },
 });
 
