@@ -15,7 +15,7 @@ export const postSignup = async (body: RequestUser): Promise<void> => {
 export const postLogin = async (
   body: RequestUser
 ): Promise<{ accessToken: string }> => {
-  const { data } = await instance.post("/auth/login", body);
+  const { data } = await instance.post("/auth/signin", body);
 
   return data;
 };

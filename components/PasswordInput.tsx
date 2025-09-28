@@ -18,7 +18,7 @@ function PasswordInput({ submitBehavior = "blurAndSubmit" }: Props) {
           if (data.length < 8) {
             return "비밀번호는 8자리 이상입니다.";
           }
-          if (data.length < 20) {
+          if (data.length > 20) {
             return "비밀번호는 20자리 이하입니다.";
           }
         },

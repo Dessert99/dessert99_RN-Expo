@@ -28,7 +28,6 @@ function EmailInput() {
             value={value}
             onChangeText={(text) => {
               onChange(text);
-              console.log("error", error);
             }}
             error={error?.message} // 유효성 검사에서 리턴한 메시지를 error로 넘겨준다.
             autoFocus // 자동 포커스
