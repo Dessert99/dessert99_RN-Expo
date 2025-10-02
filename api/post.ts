@@ -9,7 +9,7 @@ export async function createPost(body: CreatePostDto) {
 
 // 게시글 요청 로직 : 파라미터-페이지, 리턴 타입 - Post배열
 export async function getPosts(page = 1): Promise<Post[]> {
-  const { data } = await instance.post(`/posts?page=${page}`);
+  const { data } = await instance.get(`/posts?page=${page}`);
   return data;
 }
 
