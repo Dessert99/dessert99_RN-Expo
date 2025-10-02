@@ -1,6 +1,6 @@
 import { colors } from "@/constants";
 import { useGetInfinitePosts } from "@/hooks/queries/useGetInfinitePosts";
-import React from "react";
+import React, { useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
 import FeedItem from "./FeedItem";
 
@@ -11,8 +11,17 @@ function FeedList() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    refetch,
   } = useGetInfinitePosts(); // data의 이름을 posts로 변경
   if (error) console.log("[FeedList] fetch error:", error); // ← 여기 한 줄
+
+  const [isRefreshing, setIsRefreshing] = useState(false); // 새로고침 상태
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await refetch();
+    setIsRefreshing(false);
+  };
 
   //다음 페이지 가져오는 로직
   const handleEndReached = () => {
@@ -31,6 +40,8 @@ function FeedList() {
       keyExtractor={(item) => String(item.id)} //FlatList의 key 값은 문자열이어야 한다.
       onEndReached={handleEndReached} // 다음 글 목록 불러오는 옵션
       onEndReachedThreshold={0.5} // 밑에 완전히 닫지 않아도 자동으로 불러오는 옵션
+      refreshing={isRefreshing} // 새로고침 상태 연결
+      onRefresh={handleRefresh} // 새로고침 기능 추가
     />
   );
 }
