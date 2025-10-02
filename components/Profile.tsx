@@ -1,6 +1,12 @@
 import { colors } from "@/constants";
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
+import relativeTime from "dayjs/plugin/relativeTime";
 import React, { ReactNode } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+
+dayjs.extend(relativeTime); // "몇 시간 전" 을 표시하기 위한 fromNow 기능 추가
+dayjs.locale("ko"); // 한국어 버전
 
 interface ProfileProps {
   onPress: () => void;
@@ -30,7 +36,10 @@ function Profile({
         />
         <View style={{ gap: 4 }}>
           <Text style={styles.nickname}>{nickname}</Text>
-          <Text style={styles.createdAt}>{createdAt}</Text>
+          <Text style={styles.createdAt}>
+            {/* 다양한 변환 방식이 있다. */}
+            {dayjs(createdAt).fromNow()}
+          </Text>
         </View>
       </Pressable>
       {options}
