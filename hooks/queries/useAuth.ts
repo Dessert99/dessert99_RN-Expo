@@ -41,7 +41,7 @@ function useLogin() {
   return useMutation({
     mutationFn: postLogin,
     onSuccess: async ({ accessToken }) => {
-      setHeader("Authorization", `Beaer ${accessToken}`);
+      setHeader("Authorization", `Bearer ${accessToken}`);
       await saveSecureStore("accessToken", accessToken);
       queryClient.fetchQuery({ queryKey: ["auth", "getMe"] }); // 이 키에 해당하는 Query를 패칭할 수 있다.
       console.log("로그인 성공");
