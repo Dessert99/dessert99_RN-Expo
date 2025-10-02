@@ -7,7 +7,7 @@ import { Pressable, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
-  const { auth } = useAuth();
+  const { auth } = useAuth(); // 로그인하고 여기로 돌아오면 useGetMe 실행되며 사용자 정보 받아옴
 
   return (
     <SafeAreaView style={styles.container}>

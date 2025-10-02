@@ -10,6 +10,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { router } from "expo-router";
 import { useEffect } from "react";
 
+// useAuth()를 쓰는 컴포넌트가 렌더될 때 useGetMe()도 실행된다.
 function useGetMe() {
   const { data, isError, isSuccess } = useQuery({
     queryFn: getMe,

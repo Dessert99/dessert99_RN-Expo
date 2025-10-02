@@ -21,6 +21,7 @@ export const postLogin = async (
 };
 
 export const getMe = async (): Promise<Profile> => {
+  console.log("[API] -> GET /auth/me");
   const accessToken = await getSecureStore("accessToken");
   const { data } = await instance.get("/auth/me", {
     headers: {
