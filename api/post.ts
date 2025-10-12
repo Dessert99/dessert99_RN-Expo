@@ -39,3 +39,10 @@ export async function deletePost(id: number): Promise<number> {
   const { data } = await instance.delete(`/posts/${id}`);
   return data;
 }
+
+// 특정 id 게시글 요청 로직
+export async function getPost(id: number): Promise<Post> {
+  console.log("[API] -> GET /posts/id");
+  const { data } = await instance.get(`/posts/${id}`);
+  return data;
+}

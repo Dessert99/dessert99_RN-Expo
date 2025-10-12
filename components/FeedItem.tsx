@@ -5,6 +5,7 @@ import { Post } from "@/types";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { router } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Profile from "./Profile";
 
@@ -34,6 +35,7 @@ function FeedItem({ post }: FeedItemProps) {
             deletePost.mutate(post.id);
             break;
           case 1: // 수정
+            router.push(`/post/update/${post.id}`);
             break;
           case cancelButtonIndex: //취소
             break;
