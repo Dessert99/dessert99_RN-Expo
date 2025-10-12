@@ -47,6 +47,10 @@ function RootNavigator() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
+        name='post'
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name='modal'
         options={{ presentation: "modal", title: "Modal" }}
       />
