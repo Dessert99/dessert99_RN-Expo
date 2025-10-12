@@ -2,8 +2,9 @@ import CustomButton from "@/components/CustomButton";
 import DescriptionInput from "@/components/DescriptionInput";
 import TitleInput from "@/components/TitleInput";
 import { useGetPost } from "@/hooks/queries/useGetPost";
+import { useUpdatePost } from "@/hooks/queries/useUpdatePost";
 import { ImageUri } from "@/types";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { StyleSheet } from "react-native";
@@ -18,8 +19,8 @@ type FormValues = {
 export default function PostUpdateScreen() {
   const { id } = useLocalSearchParams(); // param에 있는 id를 가져온다. 이 id를 가져와서 게시글 정보를 가져온다.
   const { data: post } = useGetPost(Number(id));
+  const updatePost = useUpdatePost();
   const navigation = useNavigation();
-
   const postForm = useForm<FormValues>({
     defaultValues: {
       title: post?.title,
@@ -28,7 +29,17 @@ export default function PostUpdateScreen() {
     },
   });
 
-  const onSubmit = (formValues: FormValues) => {};
+  const onSubmit = (formValues: FormValues) => {
+    updatePost.mutate(
+      {
+        id: Number(id),
+        body: formValues,
+      },
+      {
+        onSuccess: () => router.back(),
+      }
+    );
+  };
 
   useEffect(() => {
     navigation.setOptions({

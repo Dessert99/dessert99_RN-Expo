@@ -46,3 +46,18 @@ export async function getPost(id: number): Promise<Post> {
   const { data } = await instance.get(`/posts/${id}`);
   return data;
 }
+
+type RequestUpdatePost = {
+  id: number;
+  body: CreatePostDto;
+};
+
+// 게시글 수정 요청. 리턴은 수정된 게시글 id만 오게 된다.
+export async function updatePost({
+  id,
+  body,
+}: RequestUpdatePost): Promise<number> {
+  console.log("[API] -> PATCH /posts");
+  const { data } = await instance.patch(`/posts/${id}`, body);
+  return data;
+}
