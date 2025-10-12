@@ -1,5 +1,6 @@
 import { colors } from "@/constants";
 import { useAuth } from "@/hooks/queries/useAuth";
+import { useDeletePost } from "@/hooks/queries/useDeletePost";
 import { Post } from "@/types";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -14,6 +15,7 @@ interface FeedItemProps {
 function FeedItem({ post }: FeedItemProps) {
   const { auth } = useAuth();
   const { showActionSheetWithOptions } = useActionSheet();
+  const deletePost = useDeletePost();
 
   const likeUsers = post.likes?.map((like) => Number(like.userId)); // 게시글에 좋아요가 있다면, 유저의 아이디만 뽑아준다.
   const isLiked = likeUsers?.includes(Number(auth.id)); // 좋아요 누른 사람 목록에 내 id가 있다면 true
@@ -29,6 +31,7 @@ function FeedItem({ post }: FeedItemProps) {
       (selectedIndex?: number) => {
         switch (selectedIndex) {
           case destructiveButtonIndex: // 삭제
+            deletePost.mutate(post.id);
             break;
           case 1: // 수정
             break;

@@ -32,3 +32,10 @@ interface Post {
   comments?: PostComment[];
 }
 */
+
+// 게시글 삭제 요청: 어떤 게시글이 삭제되었는지 리턴값이 온다.
+export async function deletePost(id: number): Promise<number> {
+  console.log("[API] -> DELETE /posts");
+  const { data } = await instance.delete(`/posts/${id}`);
+  return data;
+}
