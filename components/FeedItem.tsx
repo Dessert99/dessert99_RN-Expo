@@ -11,9 +11,10 @@ import Profile from "./Profile";
 
 interface FeedItemProps {
   post: Post;
+  isDetail?: boolean; // 상세 스크린이 계속 클릭되는 것을 방지. 상세 스크린이 보이는지 아닌지를 판단
 }
 
-function FeedItem({ post }: FeedItemProps) {
+function FeedItem({ post, isDetail = false }: FeedItemProps) {
   const { auth } = useAuth();
   const { showActionSheetWithOptions } = useActionSheet();
   const deletePost = useDeletePost();
@@ -46,8 +47,19 @@ function FeedItem({ post }: FeedItemProps) {
     ); // options로 어떤 버튼인지 넣을 수 있다. 그 다음 누른 버튼에 따라 핸들링하면 된다.
   };
 
+  //상세 스크린 이동 핸들러
+  const handlePressFeed = () => {
+    if (!isDetail) {
+      router.push(`/post/${post.id}`);
+    }
+  };
+
+  const ContainerComponent = isDetail ? View : Pressable;
+
   return (
-    <View style={styles.container}>
+    <ContainerComponent
+      style={styles.container}
+      onPress={handlePressFeed}>
       <View style={styles.contentContainer}>
         <Profile
           nickname={post.author.nickname}
@@ -101,7 +113,7 @@ function FeedItem({ post }: FeedItemProps) {
           <Text style={styles.menuText}>{post.viewCount}</Text>
         </Pressable>
       </View>
-    </View>
+    </ContainerComponent>
   );
 }
 
