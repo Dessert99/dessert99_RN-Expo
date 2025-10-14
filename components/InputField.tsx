@@ -1,5 +1,5 @@
 import { colors } from "@/constants";
-import React from "react";
+import React, { ReactNode } from "react";
 
 import {
   StyleSheet,
@@ -14,6 +14,7 @@ interface InputFieldProps extends TextInputProps {
   variant?: "filled" | "standard" | "outline";
   error?: string;
   ref?: React.Ref<TextInput>; // 타입 설정
+  righteChild?: ReactNode;
 }
 
 function InputField({
@@ -21,6 +22,7 @@ function InputField({
   variant = "filled",
   error = "",
   ref, //React 19부터 props로 넣을 수 있다.
+  righteChild = null,
   ...props
 }: InputFieldProps) {
   return (
@@ -43,6 +45,7 @@ function InputField({
           spellCheck={false}
           autoCorrect={false}
         />
+        {righteChild}
       </View>
       {Boolean(error) && <Text style={styles.error}>{error}</Text>}
     </View>
@@ -55,6 +58,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: "center",
     paddingHorizontal: 10,
+    flexDirection: "row",
+    alignItems: "center",
   },
   label: {
     fontSize: 12,
@@ -67,6 +72,7 @@ const styles = StyleSheet.create({
   outline: {},
   input: {
     fontSize: 16,
+    flex: 1,
   },
   error: {
     color: colors.RED_500,
