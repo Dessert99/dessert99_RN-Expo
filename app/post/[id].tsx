@@ -34,7 +34,9 @@ export default function PostDetailScreen() {
       <View style={styles.container}>
         <KeyboardAwareScrollView
           contentContainerStyle={styles.awareScrollViewContainer}>
-          <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+          <ScrollView
+            style={{ marginBottom: 75 }} // 댓글이 입력창에 가려지지 않도록 마진 추가
+            contentContainerStyle={styles.scrollViewContainer}>
             <View style={{ marginTop: 12 }}>
               <FeedItem
                 post={post}
