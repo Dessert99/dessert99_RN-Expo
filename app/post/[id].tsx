@@ -1,4 +1,5 @@
 import AuthRoute from "@/components/AuthRoute";
+import CommentItem from "@/components/CommentItem";
 import FeedItem from "@/components/FeedItem";
 import InputField from "@/components/InputField";
 import { colors } from "@/constants";
@@ -46,6 +47,15 @@ export default function PostDetailScreen() {
                 댓글 {post.commentCount}개
               </Text>
             </View>
+
+            {post.comments?.map((comment) => {
+              return (
+                <CommentItem
+                  key={comment.id}
+                  comment={comment}
+                />
+              );
+            })}
           </ScrollView>
 
           {/* 댓글 인풋 */}
