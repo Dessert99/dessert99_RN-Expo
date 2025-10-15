@@ -6,7 +6,7 @@ import { colors } from "@/constants";
 import { useCreateComment } from "@/hooks/queries/useCreateComment";
 import { useGetPost } from "@/hooks/queries/useGetPost";
 import { useLocalSearchParams } from "expo-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -15,6 +15,7 @@ export default function PostDetailScreen() {
   const { data: post, isPending, isError } = useGetPost(Number(id));
   const [content, setContent] = useState("");
   const createComment = useCreateComment();
+  const scrollRef = useRef<ScrollView | null>(null);
 
   if (isError || isPending) {
     return <Text>로딩중</Text>;
@@ -28,6 +29,10 @@ export default function PostDetailScreen() {
     };
     createComment.mutate(commentData);
     setContent(""); // 댓글 입력창 초기화
+
+    setTimeout(() => {
+      scrollRef.current?.scrollToEnd(); // 댓글 입력 후 0.5초 뒤에 스크롤 내리기
+    }, 500);
   };
 
   return (
@@ -36,6 +41,7 @@ export default function PostDetailScreen() {
         <KeyboardAwareScrollView
           contentContainerStyle={styles.awareScrollViewContainer}>
           <ScrollView
+            ref={scrollRef}
             style={{ marginBottom: 75 }} // 댓글이 입력창에 가려지지 않도록 마진 추가
             contentContainerStyle={styles.scrollViewContainer}>
             <View style={{ marginTop: 12 }}>
