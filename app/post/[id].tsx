@@ -9,8 +9,10 @@ import { useLocalSearchParams } from "expo-router";
 import { useRef, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function PostDetailScreen() {
+  const inset = useSafeAreaInsets();
   const { id } = useLocalSearchParams();
   const { data: post, isPending, isError } = useGetPost(Number(id));
   const [content, setContent] = useState("");
@@ -37,7 +39,7 @@ export default function PostDetailScreen() {
 
   return (
     <AuthRoute>
-      <View style={styles.container}>
+      <View style={[styles.container, { paddingBottom: inset.bottom }]}>
         <KeyboardAwareScrollView
           contentContainerStyle={styles.awareScrollViewContainer}>
           <ScrollView
