@@ -5,7 +5,7 @@ import { Comment } from "@/types";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import InputField from "./InputField";
 import Profile from "./Profile";
 
@@ -77,6 +77,17 @@ function CommentItem({ comment, isReply = false }: CommentItemProps) {
         editable={false} // 편집 불가
         value={comment.isDeleted ? "삭제된 댓글입니다." : comment.content}
       />
+      {/* 삭제된 댓글이 아니고, 답글이 아닌 경우에만 보인다. */}
+      {!comment.isDeleted && !isReply && (
+        <View style={styles.replyButtonContainer}>
+          <Pressable>
+            <Text style={styles.replyButton}>답글 남기기</Text>
+          </Pressable>
+          <Pressable>
+            <Text style={styles.cancelButton}>취소</Text>
+          </Pressable>
+        </View>
+      )}
     </View>
   );
 }
@@ -93,6 +104,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
+  },
+  replyButtonContainer: {
+    flexDirection: "row",
+    gap: 15,
+    alignContent: "center",
+  },
+  replyButton: {
+    color: colors.ORANGE_600,
+    fontSize: 12,
+    fontWeight: "bold",
+  },
+  cancelButton: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: colors.BLACK,
   },
 });
 
