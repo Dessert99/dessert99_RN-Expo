@@ -76,7 +76,7 @@ export default function PostDetailScreen() {
                   key={comment.id}
                   comment={comment}
                   parentCommentId={parentCommentId}
-                  onRely={() => handleReply(comment.id)}
+                  onReply={() => handleReply(comment.id)}
                 />
               );
             })}

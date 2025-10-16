@@ -13,14 +13,14 @@ interface CommentItemProps {
   comment: Comment;
   isReply?: boolean; // 댓글인지 대댓글인지 구분하는 props
   parentCommentId?: number | null;
-  onRely?: () => void;
+  onReply?: () => void;
 }
 
 function CommentItem({
   comment,
   isReply = false,
   parentCommentId,
-  onRely,
+  onReply,
 }: CommentItemProps) {
   const { auth } = useAuth();
   const deleteComment = useDeleteComment();
@@ -87,7 +87,7 @@ function CommentItem({
       {/* 삭제된 댓글이 아니고, 답글이 아닌 경우에만 보인다. */}
       {!comment.isDeleted && !isReply && (
         <View style={styles.replyButtonContainer}>
-          <Pressable onPress={onRely}>
+          <Pressable onPress={onReply}>
             <Text style={styles.replyButton}>답글 남기기</Text>
           </Pressable>
           <Pressable>
