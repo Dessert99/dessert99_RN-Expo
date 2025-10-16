@@ -6,7 +6,7 @@ import { colors } from "@/constants";
 import { useCreateComment } from "@/hooks/queries/useCreateComment";
 import { useGetPost } from "@/hooks/queries/useGetPost";
 import { useLocalSearchParams } from "expo-router";
-import { useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import {
   Keyboard,
   Pressable,
@@ -50,6 +50,14 @@ export default function PostDetailScreen() {
       postId: post.id,
       content: content,
     };
+    //답글 등록
+    if (parentCommentId) {
+      createComment.mutate({ ...commentData, parentCommentId }); // 왜 이렇게 보낼까?
+      setContent(""); // 인풋창 비우기
+      handleCancelReply();
+      return;
+    }
+
     createComment.mutate(commentData);
     setContent(""); // 댓글 입력창 초기화
 
@@ -79,13 +87,26 @@ export default function PostDetailScreen() {
 
             {post.comments?.map((comment) => {
               return (
-                <CommentItem
-                  key={comment.id}
-                  comment={comment}
-                  parentCommentId={parentCommentId}
-                  onReply={() => handleReply(comment.id)}
-                  onCancelReply={handleCancelReply}
-                />
+                <Fragment key={comment.id}>
+                  {/* 댓글 */}
+                  <CommentItem
+                    key={comment.id}
+                    comment={comment}
+                    parentCommentId={parentCommentId}
+                    onReply={() => handleReply(comment.id)}
+                    onCancelReply={handleCancelReply}
+                  />
+                  {comment.replies.map((reply) => {
+                    return (
+                      // 대댓글
+                      <CommentItem
+                        key={reply.id}
+                        comment={reply}
+                        isReply={true}
+                      />
+                    );
+                  })}
+                </Fragment>
               );
             })}
           </ScrollView>
