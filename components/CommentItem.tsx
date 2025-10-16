@@ -28,6 +28,22 @@ function CommentItem({
   const deleteComment = useDeleteComment();
   const { showActionSheetWithOptions } = useActionSheet();
 
+  // 선택된 댓글 배경색을 바꾸기 위한 로직
+  const getCommentBackground = () => {
+    // 선택된 댓글이라면 오렌지 색 반환
+    if (parentCommentId === comment.id) {
+      return colors.ORANGE_100;
+    }
+
+    // 답글이면 회색 반환
+    if (isReply) {
+      return colors.GRAY_200;
+    }
+
+    // 나머지는 하얀색 반환
+    return colors.WHITE;
+  };
+
   //옵션 핸들러
   const handlePressOption = () => {
     const options = ["삭제", "취소"];
@@ -54,7 +70,8 @@ function CommentItem({
     );
   };
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: getCommentBackground() }]}>
       <View style={styles.profileContainer}>
         {isReply && (
           <MaterialCommunityIcons
