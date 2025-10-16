@@ -7,7 +7,14 @@ import { useCreateComment } from "@/hooks/queries/useCreateComment";
 import { useGetPost } from "@/hooks/queries/useGetPost";
 import { useLocalSearchParams } from "expo-router";
 import { useRef, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -18,10 +25,17 @@ export default function PostDetailScreen() {
   const [content, setContent] = useState("");
   const createComment = useCreateComment();
   const scrollRef = useRef<ScrollView | null>(null);
+  const [parentCommentId, setParentCommentId] = useState<number | null>(null); // 대댓글을 위한 부모 댓글 ID 상태
+  const inputRef = useRef<TextInput | null>(null);
 
   if (isError || isPending) {
     return <Text>로딩중</Text>;
   }
+  //대댓글이 달릴 부모 댓글 ID 상태를 관리하는 핸들러
+  const handleReply = (commentId: number) => {
+    setParentCommentId(commentId);
+    inputRef.current?.focus(); // 답글 남기기 클릭하면 입력창으로 포커스 이동
+  };
 
   //댓글 생성 요청 핸들러
   const handleSubmitComment = () => {
@@ -61,6 +75,8 @@ export default function PostDetailScreen() {
                 <CommentItem
                   key={comment.id}
                   comment={comment}
+                  parentCommentId={parentCommentId}
+                  onRely={() => handleReply(comment.id)}
                 />
               );
             })}
@@ -69,6 +85,7 @@ export default function PostDetailScreen() {
           {/* 댓글 인풋 */}
           <View style={styles.commentInputContainer}>
             <InputField
+              ref={inputRef}
               value={content}
               onChangeText={(text) => setContent(text)}
               returnKeyType='send'
