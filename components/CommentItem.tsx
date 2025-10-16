@@ -14,6 +14,7 @@ interface CommentItemProps {
   isReply?: boolean; // 댓글인지 대댓글인지 구분하는 props
   parentCommentId?: number | null;
   onReply?: () => void;
+  onCancelReply?: () => void;
 }
 
 function CommentItem({
@@ -21,6 +22,7 @@ function CommentItem({
   isReply = false,
   parentCommentId,
   onReply,
+  onCancelReply,
 }: CommentItemProps) {
   const { auth } = useAuth();
   const deleteComment = useDeleteComment();
@@ -90,9 +92,13 @@ function CommentItem({
           <Pressable onPress={onReply}>
             <Text style={styles.replyButton}>답글 남기기</Text>
           </Pressable>
-          <Pressable>
-            <Text style={styles.cancelButton}>취소</Text>
-          </Pressable>
+
+          {/* 현재 댓글 Id와 parentComment id가 같을 때만 취소 버튼이 보인다 */}
+          {parentCommentId === comment.id && (
+            <Pressable onPress={onCancelReply}>
+              <Text style={styles.cancelButton}>취소</Text>
+            </Pressable>
+          )}
         </View>
       )}
     </View>

@@ -8,6 +8,7 @@ import { useGetPost } from "@/hooks/queries/useGetPost";
 import { useLocalSearchParams } from "expo-router";
 import { useRef, useState } from "react";
 import {
+  Keyboard,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -35,6 +36,12 @@ export default function PostDetailScreen() {
   const handleReply = (commentId: number) => {
     setParentCommentId(commentId);
     inputRef.current?.focus(); // 답글 남기기 클릭하면 입력창으로 포커스 이동
+  };
+
+  // 답글 취소 핸들러
+  const handleCancelReply = () => {
+    setParentCommentId(null);
+    Keyboard.dismiss(); // 키보드 내리기
   };
 
   //댓글 생성 요청 핸들러
@@ -77,6 +84,7 @@ export default function PostDetailScreen() {
                   comment={comment}
                   parentCommentId={parentCommentId}
                   onReply={() => handleReply(comment.id)}
+                  onCancelReply={handleCancelReply}
                 />
               );
             })}
@@ -90,7 +98,9 @@ export default function PostDetailScreen() {
               onChangeText={(text) => setContent(text)}
               returnKeyType='send'
               onSubmitEditing={handleSubmitComment} // 엔터키를 입력하면 댓글이 바로 등록 되도록 핸들러 연결
-              placeholder='댓글을 남겨 보세요.'
+              placeholder={
+                parentCommentId ? "답글 남기는 중..." : "댓글을 남겨 보세요."
+              }
               righteChild={
                 <Pressable
                   disabled={!content} // 입력된 댓글이 없을 때는 클릭되지 않는다.
