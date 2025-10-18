@@ -6,20 +6,43 @@ import { colors } from "@/constants";
 import { useCreateComment } from "@/hooks/queries/useCreateComment";
 import { useGetPost } from "@/hooks/queries/useGetPost";
 import { useLocalSearchParams } from "expo-router";
-import { useRef, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Fragment, useRef, useState } from "react";
+import {
+  Keyboard,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function PostDetailScreen() {
+  const inset = useSafeAreaInsets();
   const { id } = useLocalSearchParams();
   const { data: post, isPending, isError } = useGetPost(Number(id));
   const [content, setContent] = useState("");
   const createComment = useCreateComment();
   const scrollRef = useRef<ScrollView | null>(null);
+  const [parentCommentId, setParentCommentId] = useState<number | null>(null); // 대댓글을 위한 부모 댓글 ID 상태
+  const inputRef = useRef<TextInput | null>(null);
 
   if (isError || isPending) {
     return <Text>로딩중</Text>;
   }
+  //대댓글이 달릴 부모 댓글 ID 상태를 관리하는 핸들러
+  const handleReply = (commentId: number) => {
+    setParentCommentId(commentId);
+    inputRef.current?.focus(); // 답글 남기기 클릭하면 입력창으로 포커스 이동
+  };
+
+  // 답글 취소 핸들러
+  const handleCancelReply = () => {
+    setParentCommentId(null);
+    Keyboard.dismiss(); // 키보드 내리기
+  };
 
   //댓글 생성 요청 핸들러
   const handleSubmitComment = () => {
@@ -27,6 +50,14 @@ export default function PostDetailScreen() {
       postId: post.id,
       content: content,
     };
+    //답글 등록
+    if (parentCommentId) {
+      createComment.mutate({ ...commentData, parentCommentId }); // 왜 이렇게 보낼까?
+      setContent(""); // 인풋창 비우기
+      handleCancelReply();
+      return;
+    }
+
     createComment.mutate(commentData);
     setContent(""); // 댓글 입력창 초기화
 
@@ -37,7 +68,7 @@ export default function PostDetailScreen() {
 
   return (
     <AuthRoute>
-      <View style={styles.container}>
+      <View style={[styles.container, { paddingBottom: inset.bottom }]}>
         <KeyboardAwareScrollView
           contentContainerStyle={styles.awareScrollViewContainer}>
           <ScrollView
@@ -56,10 +87,26 @@ export default function PostDetailScreen() {
 
             {post.comments?.map((comment) => {
               return (
-                <CommentItem
-                  key={comment.id}
-                  comment={comment}
-                />
+                <Fragment key={comment.id}>
+                  {/* 댓글 */}
+                  <CommentItem
+                    key={comment.id}
+                    comment={comment}
+                    parentCommentId={parentCommentId}
+                    onReply={() => handleReply(comment.id)}
+                    onCancelReply={handleCancelReply}
+                  />
+                  {comment.replies.map((reply) => {
+                    return (
+                      // 대댓글
+                      <CommentItem
+                        key={reply.id}
+                        comment={reply}
+                        isReply={true}
+                      />
+                    );
+                  })}
+                </Fragment>
               );
             })}
           </ScrollView>
@@ -67,11 +114,14 @@ export default function PostDetailScreen() {
           {/* 댓글 인풋 */}
           <View style={styles.commentInputContainer}>
             <InputField
+              ref={inputRef}
               value={content}
               onChangeText={(text) => setContent(text)}
               returnKeyType='send'
               onSubmitEditing={handleSubmitComment} // 엔터키를 입력하면 댓글이 바로 등록 되도록 핸들러 연결
-              placeholder='댓글을 남겨 보세요.'
+              placeholder={
+                parentCommentId ? "답글 남기는 중..." : "댓글을 남겨 보세요."
+              }
               righteChild={
                 <Pressable
                   disabled={!content} // 입력된 댓글이 없을 때는 클릭되지 않는다.

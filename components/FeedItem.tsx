@@ -1,3 +1,4 @@
+import { baseUrls } from "@/api/instance";
 import { colors } from "@/constants";
 import { useAuth } from "@/hooks/queries/useAuth";
 import { useDeletePost } from "@/hooks/queries/useDeletePost";
@@ -6,7 +7,15 @@ import { useActionSheet } from "@expo/react-native-action-sheet";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import Profile from "./Profile";
 
 interface FeedItemProps {
@@ -86,6 +95,31 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
           style={styles.description}>
           {post.description}
         </Text>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ gap: 5, flexGrow: 1 }}>
+          {post.imageUris.map(({ uri }, idx) => {
+            // 이미지 URI에는 서버 주소를 넣어줘야 한다.
+            const imageUri = `${
+              Platform.OS === "ios" ? baseUrls.ios : baseUrls.android
+            }/${uri}`;
+
+            return (
+              <Pressable
+                key={idx}
+                style={styles.imageContainer}
+                onPress={() =>
+                  router.push({ pathname: "/image", params: { uri: imageUri } })
+                }>
+                <Image
+                  style={styles.image}
+                  source={{ uri: imageUri }}
+                />
+              </Pressable>
+            );
+          })}
+        </ScrollView>
       </View>
       <View style={styles.menuContainer}>
         <Pressable style={styles.menu}>
@@ -159,6 +193,15 @@ const styles = StyleSheet.create({
   activeMenuText: {
     fontWeight: "500",
     color: colors.ORANGE_600,
+  },
+  imageContainer: {
+    width: 90,
+    height: 90,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 8,
   },
 });
 
