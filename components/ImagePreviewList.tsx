@@ -1,5 +1,6 @@
 import { baseUrls } from "@/api/instance";
 import { ImageUri } from "@/types";
+import { router } from "expo-router";
 import React from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import {
@@ -33,7 +34,10 @@ function ImagePreviewList() {
         return (
           <Pressable
             key={idx}
-            style={styles.imageContainer}>
+            style={styles.imageContainer}
+            onPress={() =>
+              router.push({ pathname: "/image", params: { uri: imageUri } })
+            }>
             <Image
               style={styles.image}
               source={{ uri: imageUri }}

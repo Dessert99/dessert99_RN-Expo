@@ -108,7 +108,10 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
             return (
               <Pressable
                 key={idx}
-                style={styles.imageContainer}>
+                style={styles.imageContainer}
+                onPress={() =>
+                  router.push({ pathname: "/image", params: { uri: imageUri } })
+                }>
                 <Image
                   style={styles.image}
                   source={{ uri: imageUri }}
