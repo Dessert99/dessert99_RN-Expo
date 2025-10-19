@@ -3,6 +3,7 @@ import DescriptionInput from "@/components/DescriptionInput";
 import ImagePreviewList from "@/components/ImagePreviewList";
 import PostWriteFooter from "@/components/PostWriteFooter";
 import TitleInput from "@/components/TitleInput";
+import VoteAttached from "@/components/VoteAttached";
 import VoteModal from "@/components/VoteModal";
 import useCreatePost from "@/hooks/queries/useCreatePost";
 import { ImageUri, VoteOption } from "@/types";
@@ -17,6 +18,7 @@ type FormValues = {
   description: string;
   imageUris: ImageUri[];
   isVoteOpen: boolean; // 투표 오픈 상태
+  isVoteAttached: boolean; // 투표 제출 판단 상태
   voteOptions: VoteOption[]; // 1) 투표 항목 이름, 2) 투표 항목 순서 3) id는 usehookform에서 자동으로 생성
 };
 
@@ -29,6 +31,7 @@ export default function PostWriteScreen() {
       description: "",
       imageUris: [],
       isVoteOpen: false,
+      isVoteAttached: false,
       voteOptions: [{ displayPriority: 0, content: "" }],
     },
   });
@@ -55,6 +58,7 @@ export default function PostWriteScreen() {
       <KeyboardAwareScrollView contentContainerStyle={styles.container}>
         <TitleInput />
         <DescriptionInput />
+        <VoteAttached />
         <ImagePreviewList />
       </KeyboardAwareScrollView>
       <PostWriteFooter />
