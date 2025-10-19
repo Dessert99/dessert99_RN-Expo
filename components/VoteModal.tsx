@@ -10,7 +10,10 @@ import VoteInput from "./VoteInput";
 function VoteModal() {
   const { control, setValue } = useFormContext();
   const [isVoteOpen] = useWatch({ control, name: ["isVoteOpen"] }); // isVoteOpen 상태를 가져온다.
-  const { fields } = useFieldArray({ control, name: "voteOptions" }); // voteOptions의 배열을 fields로 다룰 수 있다.
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "voteOptions",
+  }); // voteOptions의 배열을 fields로 다룰 수 있다.
 
   return (
     <Modal
@@ -38,6 +41,7 @@ function VoteModal() {
               <VoteInput
                 key={field.id}
                 index={idx}
+                onRemove={() => remove(idx)} // 그냥 삭제할 인덱스를 전달하면 된다.
               />
             );
           })}
