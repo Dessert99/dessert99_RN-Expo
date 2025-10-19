@@ -19,6 +19,7 @@ function VoteModal() {
     <Modal
       visible={isVoteOpen} // true 일 떄만 보인다.
       animationType='slide'>
+      <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <Pressable
@@ -47,6 +48,7 @@ function VoteModal() {
           })}
         </KeyboardAwareScrollView>
       </SafeAreaView>
+      </SafeAreaProvider>
     </Modal>
   );
 }

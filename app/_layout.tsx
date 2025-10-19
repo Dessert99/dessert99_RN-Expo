@@ -6,6 +6,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { useEffect } from "react";
 import "react-native-reanimated";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 
 export const unstable_settings = {
@@ -14,12 +15,14 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   return (
-    <ActionSheetProvider>
-      <QueryClientProvider client={queryClient}>
-        <RootNavigator />
-        <Toast />
-      </QueryClientProvider>
-    </ActionSheetProvider>
+    <SafeAreaProvider>
+      <ActionSheetProvider>
+        <QueryClientProvider client={queryClient}>
+          <RootNavigator />
+          <Toast />
+        </QueryClientProvider>
+      </ActionSheetProvider>
+    </SafeAreaProvider>
   );
 }
 
