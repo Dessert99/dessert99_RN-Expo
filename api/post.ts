@@ -1,4 +1,4 @@
-import { CreatePostDto, Post } from "@/types";
+import { CreatePostDto, CreateVoteDto, Post, VoteOption } from "@/types";
 import { instance } from "./instance";
 
 export async function createPost(body: CreatePostDto) {
@@ -59,5 +59,13 @@ export async function updatePost({
 }: RequestUpdatePost): Promise<number> {
   console.log("[API] -> PATCH /posts");
   const { data } = await instance.patch(`/posts/${id}`, body);
+  return data;
+}
+
+export async function createVote({
+  postId,
+  voteOptionId,
+}: CreateVoteDto): Promise<{ postId: number; voteOption: VoteOption }> {
+  const { data } = await instance.post(`/posts/${postId}/vote/${voteOptionId}`);
   return data;
 }
