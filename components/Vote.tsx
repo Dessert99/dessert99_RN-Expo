@@ -2,9 +2,10 @@ import { colors } from "@/constants";
 import { useAuth } from "@/hooks/queries/useAuth";
 import { PostVote } from "@/types";
 import { Feather } from "@expo/vector-icons";
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import CustomButton from "./CustomButton";
+import VoteOption from "./VoteOption";
 
 interface VoteProps {
   postId: number;
@@ -14,6 +15,7 @@ interface VoteProps {
 
 function Vote({ postId, postVotes, voteCount }: VoteProps) {
   const { auth } = useAuth();
+  const [selectedId, setSelectedId] = useState<number>(); // 투표 선택 상태
   return (
     <View style={styles.container}>
       <View style={styles.label}>
@@ -40,7 +42,16 @@ function Vote({ postId, postVotes, voteCount }: VoteProps) {
         return (
           <Fragment key={vote.id}>
             {vote.options.map((option) => {
-              return <Text key={option.id}>{option.content}</Text>;
+              return (
+                <VoteOption
+                  key={option.id}
+                  isVoted={isVoted}
+                  isSelected={option.id === selectedId}
+                  option={option}
+                  totalCount={voteCount}
+                  onSelectOption={() => setSelectedId(Number(option.id))}
+                />
+              );
             })}
 
             {/* 내가 아직 투표를 안했다면 투표하기 버튼 */}
@@ -48,6 +59,7 @@ function Vote({ postId, postVotes, voteCount }: VoteProps) {
               <CustomButton
                 label='투표하기'
                 onPress={() => {}}
+                disabled={!selectedId} // 투표를 안했으면 버튼 비활성화
               />
             )}
           </Fragment>
