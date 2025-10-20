@@ -18,10 +18,20 @@ function VoteOption({
   isSelected,
   onSelectOption,
 }: VoteOptionProps) {
+  // option.userVotes.length는 투표 항목 하나에 대한 개수이다. 그래서 전체 개수로 나누고 100을 곱하면 비율이 나온다.
+  const percent = option.userVotes.length
+    ? Math.floor((option.userVotes.length / totalCount) * 100)
+    : 0;
+
   return (
     <>
       {isVoted ? (
-        <View></View>
+        //TODO: 스타일 채우기
+        <View>
+          <Text>
+            {percent}% ({option.userVotes.length})
+          </Text>
+        </View>
       ) : (
         <Pressable
           onPress={onSelectOption}
