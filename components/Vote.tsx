@@ -1,5 +1,6 @@
 import { colors } from "@/constants";
 import { useAuth } from "@/hooks/queries/useAuth";
+import { useCreateVote } from "@/hooks/queries/useCreateVote";
 import { PostVote } from "@/types";
 import { Feather } from "@expo/vector-icons";
 import React, { Fragment, useState } from "react";
@@ -16,6 +17,13 @@ interface VoteProps {
 function Vote({ postId, postVotes, voteCount }: VoteProps) {
   const { auth } = useAuth();
   const [selectedId, setSelectedId] = useState<number>(); // 투표 선택 상태
+  const createVote = useCreateVote();
+
+  // 투표 핸들러
+  const handleVote = () => {
+    createVote.mutate({ postId: postId, voteOptionId: Number(selectedId) });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.label}>
@@ -58,7 +66,7 @@ function Vote({ postId, postVotes, voteCount }: VoteProps) {
             {!isVoted && (
               <CustomButton
                 label='투표하기'
-                onPress={() => {}}
+                onPress={handleVote}
                 disabled={!selectedId} // 투표를 안했으면 버튼 비활성화
               />
             )}
