@@ -11,7 +11,7 @@ import {
 
 interface InputFieldProps extends TextInputProps {
   label?: string;
-  variant?: "filled" | "standard" | "outline";
+  variant?: "filled" | "standard" | "outlined";
   error?: string;
   ref?: React.Ref<TextInput>; // 타입 설정
   righteChild?: ReactNode;
@@ -39,7 +39,7 @@ function InputField({
         <TextInput
           ref={ref}
           placeholderTextColor={colors.GRAY_500}
-          style={styles.input}
+          style={[styles.input, styles[`${variant}Text`]]}
           {...props}
           autoCapitalize='none' // 첫글자 대문자 끄기
           spellCheck={false}
@@ -68,8 +68,14 @@ const styles = StyleSheet.create({
   filled: {
     backgroundColor: colors.GRAY_100,
   },
-  standard: {},
-  outline: {},
+  standard: {
+    borderWidth: 1,
+    borderColor: colors.GRAY_200,
+  },
+  outlined: {
+    borderWidth: 1,
+    borderColor: colors.ORANGE_600,
+  },
   input: {
     fontSize: 16,
     flex: 1,
@@ -79,6 +85,16 @@ const styles = StyleSheet.create({
   },
   inputError: {
     backgroundColor: colors.RED_100,
+  },
+  standardText: {
+    color: colors.BLACK,
+  },
+  outlinedText: {
+    color: colors.ORANGE_600,
+    fontWeight: "bold",
+  },
+  filledText: {
+    color: colors.BLACK,
   },
 });
 

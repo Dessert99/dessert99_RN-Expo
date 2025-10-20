@@ -1,6 +1,7 @@
 import CustomButton from "@/components/CustomButton";
 import DescriptionInput from "@/components/DescriptionInput";
 import TitleInput from "@/components/TitleInput";
+import VoteAttached from "@/components/VoteAttached";
 import { useGetPost } from "@/hooks/queries/useGetPost";
 import { useUpdatePost } from "@/hooks/queries/useUpdatePost";
 import { ImageUri } from "@/types";
@@ -14,6 +15,7 @@ type FormValues = {
   title: string;
   description: string;
   imageUris: ImageUri[];
+  isVoteAttached: boolean;
 };
 
 export default function PostUpdateScreen() {
@@ -26,6 +28,7 @@ export default function PostUpdateScreen() {
       title: post?.title,
       description: post?.description,
       imageUris: post?.imageUris,
+      isVoteAttached: post?.hasVote, // 투표가 있는지 없는지 부울값이 있다.
     },
   });
 
@@ -59,6 +62,7 @@ export default function PostUpdateScreen() {
       <KeyboardAwareScrollView contentContainerStyle={styles.container}>
         <TitleInput />
         <DescriptionInput />
+        <VoteAttached />
       </KeyboardAwareScrollView>
     </FormProvider>
   );

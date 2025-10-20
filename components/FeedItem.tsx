@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/queries/useAuth";
 import { useDeletePost } from "@/hooks/queries/useDeletePost";
 import { Post } from "@/types";
 import { useActionSheet } from "@expo/react-native-action-sheet";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
@@ -17,6 +18,7 @@ import {
   View,
 } from "react-native";
 import Profile from "./Profile";
+import Vote from "./Vote";
 
 interface FeedItemProps {
   post: Post;
@@ -120,6 +122,32 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
             );
           })}
         </ScrollView>
+
+        {/* 상세 페이지가 아니고, 투표가 있을 때 보인다 */}
+        {!isDetail && post.hasVote && (
+          <View style={styles.voteContainer}>
+            <View style={styles.voteTextContainer}>
+              <MaterialCommunityIcons
+                name='vote'
+                size={24}
+                color={colors.ORANGE_600}
+              />
+              <Text style={styles.voteText}>투표</Text>
+            </View>
+            <Text style={styles.voteCountText}>
+              {post.voteCount}명 참여중...
+            </Text>
+          </View>
+        )}
+
+        {/* 상세 페이지에서 투표 컴포넌트 */}
+        {isDetail && post.hasVote && (
+          <Vote
+            postId={post.id}
+            postVotes={post.votes ?? []}
+            voteCount={post.voteCount}
+          />
+        )}
       </View>
       <View style={styles.menuContainer}>
         <Pressable style={styles.menu}>
@@ -202,6 +230,32 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderRadius: 8,
+  },
+  voteContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 15,
+    borderWidth: 1,
+    borderRadius: 10,
+    gap: 16,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderColor: colors.ORANGE_600,
+    backgroundColor: colors.ORANGE_100,
+  },
+  voteTextContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  voteCountText: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: colors.BLACK,
+  },
+  voteText: {
+    fontWeight: "bold",
+    color: colors.ORANGE_600,
+    fontSize: 14,
   },
 });
 
