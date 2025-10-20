@@ -32,7 +32,6 @@ function useGetMe() {
       removeHeader("Authorization");
       deleteSecureStore("accessToken");
       console.log("토큰이 만료되었습니다.");
-      router.replace("/auth/login");
     }
   }, [isError]);
 
