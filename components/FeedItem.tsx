@@ -1,7 +1,7 @@
 import { baseUrls } from "@/api/instance";
 import { colors } from "@/constants";
-import { useAuth } from "@/hooks/queries/useAuth";
 import { useDeletePost } from "@/hooks/queries/useDeletePost";
+import { useGetMe } from "@/hooks/queries/useGetMe";
 import { Post } from "@/types";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -26,7 +26,7 @@ interface FeedItemProps {
 }
 
 function FeedItem({ post, isDetail = false }: FeedItemProps) {
-  const { auth } = useAuth();
+  const { auth } = useGetMe();
   const { showActionSheetWithOptions } = useActionSheet();
   const deletePost = useDeletePost();
 

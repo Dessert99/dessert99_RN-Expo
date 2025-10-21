@@ -1,6 +1,6 @@
 import { colors } from "@/constants";
-import { useAuth } from "@/hooks/queries/useAuth";
 import { useCreateVote } from "@/hooks/queries/useCreateVote";
+import { useGetMe } from "@/hooks/queries/useGetMe";
 import { PostVote } from "@/types";
 import { Feather } from "@expo/vector-icons";
 import React, { Fragment, useState } from "react";
@@ -15,7 +15,7 @@ interface VoteProps {
 }
 
 function Vote({ postId, postVotes, voteCount }: VoteProps) {
-  const { auth } = useAuth();
+  const { auth } = useGetMe();
   const [selectedId, setSelectedId] = useState<number>(); // 투표 선택 상태
   const createVote = useCreateVote();
 
