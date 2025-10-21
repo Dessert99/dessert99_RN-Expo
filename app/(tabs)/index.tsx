@@ -1,13 +1,13 @@
 import FeedList from "@/components/FeedList";
 import { colors } from "@/constants";
-import { useAuth } from "@/hooks/queries/useAuth";
+import { useGetMe } from "@/hooks/queries/useGetMe";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Pressable, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
-  const { auth } = useAuth(); // 로그인하고 여기로 돌아오면 useGetMe 실행되며 사용자 정보 받아옴
+  const { auth } = useGetMe(); // 로그인하고 여기로 돌아오면 useGetMe 실행되며 사용자 정보 받아옴
 
   return (
     <SafeAreaView style={styles.container}>

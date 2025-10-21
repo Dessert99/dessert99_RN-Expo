@@ -1,6 +1,6 @@
 import { colors } from "@/constants";
-import { useAuth } from "@/hooks/queries/useAuth";
 import { useDeleteComment } from "@/hooks/queries/useDeleteComment";
+import { useGetMe } from "@/hooks/queries/useGetMe";
 import { Comment } from "@/types";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -24,7 +24,7 @@ function CommentItem({
   onReply,
   onCancelReply,
 }: CommentItemProps) {
-  const { auth } = useAuth();
+  const { auth } = useGetMe();
   const deleteComment = useDeleteComment();
   const { showActionSheetWithOptions } = useActionSheet();
 

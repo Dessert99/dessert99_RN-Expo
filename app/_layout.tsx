@@ -1,6 +1,6 @@
 "@react-navigation/native";
 import { queryClient } from "@/api/queryClient";
-import { useAuth } from "@/hooks/queries/useAuth";
+import { useGetMe } from "@/hooks/queries/useGetMe";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
@@ -27,7 +27,7 @@ export default function RootLayout() {
 }
 
 function RootNavigator() {
-  const { auth } = useAuth();
+  const { auth } = useGetMe();
 
   useEffect(() => {
     auth.id &&
