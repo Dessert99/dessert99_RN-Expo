@@ -25,6 +25,19 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name='calendar'
+        options={{
+          title: "캘린더",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "calendar" : "calendar-outline"}
+              size={24}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name='my' // 경로
         options={{
           title: "내 프로필",
