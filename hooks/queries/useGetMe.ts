@@ -7,6 +7,7 @@ export function useGetMe() {
     queryFn: getMe,
     queryKey: ["auth", "getMe"],
     retry: false,
+    staleTime: 20 * 60 * 1000, // 20분 동안 내 정보 조회 안 함
   });
 
   useEffect(() => {
