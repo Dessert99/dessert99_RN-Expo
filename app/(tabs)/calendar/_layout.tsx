@@ -13,7 +13,7 @@ export default function CalendarLayout() {
       <Stack.Screen
         name='index'
         options={{
-          headerShown: false,
+          headerShown: true,
           title: "캘린더",
         }}
       />
