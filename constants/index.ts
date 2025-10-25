@@ -13,6 +13,7 @@ export const colors = {
   GRAY_700: "#374151",
   RED_100: "#FFDFDF",
   RED_500: "#FF5F5F",
+  BLUE_500: "#2139f3ff",
 };
 
 export const queryKeys = {
