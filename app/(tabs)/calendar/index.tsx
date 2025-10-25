@@ -6,10 +6,12 @@ import { StyleSheet, View } from "react-native";
 
 export default function CalendarScreen() {
   const currentMonthYear = getMonthYearDetails(new Date());
+  const [selectedDate, setSelectedDate] = useState(-10);
   const [monthYear, setMonthYear] = useState(currentMonthYear);
 
   // 월이 +1된 새로운 monthYear를 리턴하는 핸들러
   const handleUpdateMonth = (increment: number) => {
+    setSelectedDate(-10); // 달을 바꾸면 초기화
     setMonthYear((prev) => getNewMonthYear(prev, increment));
   };
 
@@ -18,6 +20,8 @@ export default function CalendarScreen() {
       <Calendar
         monthYear={monthYear}
         onChangeMonth={handleUpdateMonth}
+        selectedDate={selectedDate}
+        onPressDate={(date: number) => setSelectedDate(date)}
       />
     </View>
   );

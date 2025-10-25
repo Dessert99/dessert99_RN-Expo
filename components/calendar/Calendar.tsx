@@ -9,9 +9,16 @@ import DayOfWeeks from "./DayOfWeeks";
 interface CalendarProps {
   monthYear: MonthYear;
   onChangeMonth: (increment: number) => void;
+  selectedDate: number;
+  onPressDate: (date: number) => void;
 }
 
-function Calendar({ monthYear, onChangeMonth }: CalendarProps) {
+function Calendar({
+  monthYear,
+  onChangeMonth,
+  selectedDate,
+  onPressDate,
+}: CalendarProps) {
   console.log("[렌더링] -> Calendar ");
   const { month, year, startDate, firstDOW, lastDate } = monthYear;
 
@@ -52,7 +59,13 @@ function Calendar({ monthYear, onChangeMonth }: CalendarProps) {
               data: idx - firstDOW + 1,
             })
           )}
-          renderItem={({ item }) => <DateBox date={item.data} />}
+          renderItem={({ item }) => (
+            <DateBox
+              date={item.data}
+              selectedDate={selectedDate}
+              onPressDate={onPressDate}
+            />
+          )}
           //각 아이템의 고유 키
           keyExtractor={(item) => String(item.id)}
           //열 수

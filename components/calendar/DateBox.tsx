@@ -4,15 +4,32 @@ import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 
 interface DateBoxProps {
   date: number;
+  selectedDate: number;
+  onPressDate: (date: number) => void; //TODO: 전역 상태로 변경
 }
 
 const deviceWidth = Dimensions.get("window").width;
 
-function DateBox({ date }: DateBoxProps) {
+function DateBox({ date, selectedDate, onPressDate }: DateBoxProps) {
+  //TODO: 렌더링 최적화
   return (
-    <Pressable style={styles.container}>
-      <View style={styles.dateContainer}>
-        {date > 0 && <Text style={styles.dateText}>{date}</Text>}
+    <Pressable
+      style={styles.container}
+      onPress={() => onPressDate(date)}>
+      <View
+        style={[
+          styles.dateContainer,
+          selectedDate === date && styles.selectedContainer,
+        ]}>
+        {date > 0 && (
+          <Text
+            style={[
+              styles.dateText,
+              selectedDate === date && styles.selectedText,
+            ]}>
+            {date}
+          </Text>
+        )}
       </View>
     </Pressable>
   );
@@ -37,6 +54,12 @@ const styles = StyleSheet.create({
   dateText: {
     fontSize: 16,
     color: colors.BLACK,
+  },
+  selectedContainer: {
+    backgroundColor: colors.ORANGE_600,
+  },
+  selectedText: {
+    color: colors.WHITE,
   },
 });
 
