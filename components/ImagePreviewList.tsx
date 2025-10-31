@@ -26,7 +26,7 @@ function ImagePreviewList() {
       showsHorizontalScrollIndicator={false} // 스크롤 바 보이지 않게
       contentContainerStyle={styles.container}>
       {imageUris.map(({ uri }, idx) => {
-        // 이미지 URI에는 서버 주소를 넣어줘야 한다.
+        // 이미지 URI에는 서버 주소를 넣어줘야 한다. "4B41CB44-E5D4-4B32-B3FF-D858D9CFAD7A1761889181388.heic"
         const imageUri = `${
           Platform.OS === "ios" ? baseUrls.ios : baseUrls.android
         }/${uri}`;
