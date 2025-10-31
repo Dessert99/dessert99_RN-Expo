@@ -1,3 +1,5 @@
+import { colors } from "@/constants";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import * as ImagePicker from "expo-image-picker";
 import React, { useState } from "react";
 import {
@@ -38,6 +40,12 @@ function ImageContainer() {
     ]);
   };
 
+  //이미지 삭제 핸들러
+  const handleDeleteImage = (url: string) => {
+    const newImageUris = imageUris.filter((uri) => uri !== url);
+    setImageUris(newImageUris);
+  };
+
   return (
     <ScrollView
       contentContainerStyle={styles.container}
@@ -49,11 +57,23 @@ function ImageContainer() {
       </Pressable>
       {imageUris &&
         imageUris.map((url) => (
-          <Image
-            style={styles.image}
+          <Pressable
             key={url}
-            source={{ uri: url }}
-          />
+            style={styles.imageContainer}>
+            <Image
+              style={styles.image}
+              source={{ uri: url }}
+            />
+            <Pressable
+              style={styles.deleteContainer}
+              onPress={() => handleDeleteImage(url)}>
+              <MaterialCommunityIcons
+                name='close'
+                size={20}
+                color={colors.WHITE}
+              />
+            </Pressable>
+          </Pressable>
         ))}
     </ScrollView>
   );
@@ -73,6 +93,15 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
+  },
+  imageContainer: {
+    borderWidth: 1,
+  },
+  deleteContainer: {
+    backgroundColor: colors.BLACK,
+    position: "absolute",
+    top: 0,
+    right: 0,
   },
 });
 
