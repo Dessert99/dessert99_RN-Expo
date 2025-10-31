@@ -1,4 +1,5 @@
 import Calendar from "@/components/calendar/Calendar";
+import ImageContainer from "@/components/calendar/ImageContainer";
 import { colors } from "@/constants";
 import { getMonthYearDetails, getNewMonthYear } from "@/utils/date";
 import { useNavigation } from "expo-router";
@@ -41,13 +42,13 @@ export default function CalendarScreen() {
         selectedDate={selectedDate}
         onPressDate={(date: number) => setSelectedDate(date)}
       />
+      <ImageContainer />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: colors.WHITE,
   },
 });
