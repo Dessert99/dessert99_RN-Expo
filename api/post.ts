@@ -69,3 +69,8 @@ export async function createVote({
   const { data } = await instance.post(`/posts/${postId}/vote/${voteOptionId}`);
   return data;
 }
+
+export const likePost = async (id: number): Promise<number> => {
+  const { data } = await instance.post(`/likes/${id}`);
+  return data;
+};
