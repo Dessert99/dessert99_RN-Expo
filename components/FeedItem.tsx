@@ -2,6 +2,7 @@ import { baseUrls } from "@/api/instance";
 import { colors } from "@/constants";
 import { useDeletePost } from "@/hooks/queries/useDeletePost";
 import { useGetMe } from "@/hooks/queries/useGetMe";
+import { useLikePost } from "@/hooks/queries/useLikePost";
 import { Post } from "@/types";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -29,6 +30,7 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
   const { auth } = useGetMe();
   const { showActionSheetWithOptions } = useActionSheet();
   const deletePost = useDeletePost();
+  const likeMutation = useLikePost();
 
   const likeUsers = post.likes?.map((like) => Number(like.userId)); // 게시글에 좋아요가 있다면, 유저의 아이디만 뽑아준다.
   const isLiked = likeUsers?.includes(Number(auth.id)); // 좋아요 누른 사람 목록에 내 id가 있다면 true
@@ -77,6 +79,7 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
       router.push(`/post/${post.id}`);
       return;
     }
+    likeMutation.mutate(post.id);
   };
 
   const ContainerComponent = isDetail ? View : Pressable;
