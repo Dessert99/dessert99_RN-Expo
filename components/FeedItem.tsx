@@ -160,7 +160,9 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
             {post.likes.length || "좋아요"}
           </Text>
         </Pressable>
-        <Pressable style={styles.menu}>
+        <Pressable
+          style={styles.menu}
+          onPress={handlePressFeed}>
           <Ionicons
             name='chatbubble-outline'
             size={16}
@@ -168,7 +170,9 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
           />
           <Text style={styles.menuText}>{post.commentCount || "댓글"}</Text>
         </Pressable>
-        <Pressable style={styles.menu}>
+        <Pressable
+          style={styles.menu}
+          onPress={handlePressFeed}>
           <Ionicons
             name='eye-outline'
             size={16}
