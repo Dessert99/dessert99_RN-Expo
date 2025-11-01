@@ -67,6 +67,18 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
     }
   };
 
+  // 좋아요 클릭 핸들러
+  const handlePressLike = () => {
+    if (!auth.id) {
+      router.push("/auth");
+      return;
+    }
+    if (!isDetail) {
+      router.push(`/post/${post.id}`);
+      return;
+    }
+  };
+
   const ContainerComponent = isDetail ? View : Pressable;
 
   return (
@@ -150,7 +162,9 @@ function FeedItem({ post, isDetail = false }: FeedItemProps) {
         )}
       </View>
       <View style={styles.menuContainer}>
-        <Pressable style={styles.menu}>
+        <Pressable
+          style={styles.menu}
+          onPress={handlePressLike}>
           <Entypo
             name={isLiked ? "heart" : "heart-outlined"}
             size={16}
