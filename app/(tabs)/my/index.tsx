@@ -1,15 +1,22 @@
-import AuthRoute from "@/components/AuthRoute";
-import { Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { WebView } from "react-native-webview";
 
 export default function MyScreen() {
   return (
-    <AuthRoute>
-      <SafeAreaView>
-        <View>
-          <Text>내 정보 스크린</Text>
-        </View>
-      </SafeAreaView>
-    </AuthRoute>
+    <SafeAreaView style={styles.container}>
+      <WebView
+        source={{
+          uri: "https://blog.naver.com/lsjh1234/223862185287",
+        }}
+        style={{ flex: 1 }}
+      />
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
