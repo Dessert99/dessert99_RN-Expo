@@ -15,7 +15,7 @@ export default function MyScreen() {
       />
       <CustomBottomSheet
         bottomSheetModalRef={bottomSheetRef}
-        snapPoints={["60%"]}>
+        snapPoints={["30%", "60%"]}>
         <View style={styles.contentContainer}>
           <Button
             title='닫기'
