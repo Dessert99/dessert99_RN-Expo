@@ -5,6 +5,7 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { useEffect } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
@@ -15,14 +16,16 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   return (
-    <SafeAreaProvider>
-      <ActionSheetProvider>
-        <QueryClientProvider client={queryClient}>
-          <RootNavigator />
-          <Toast />
-        </QueryClientProvider>
-      </ActionSheetProvider>
-    </SafeAreaProvider>
+    <GestureHandlerRootView>
+      <SafeAreaProvider>
+        <ActionSheetProvider>
+          <QueryClientProvider client={queryClient}>
+            <RootNavigator />
+            <Toast />
+          </QueryClientProvider>
+        </ActionSheetProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
 
