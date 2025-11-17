@@ -1,3 +1,4 @@
+import TodayIcon from "@/components/icons/TodayIcon";
 import { colors } from "@/constants";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Tabs } from "expo-router";
@@ -29,10 +30,9 @@ export default function TabLayout() {
         options={{
           title: "캘린더",
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? "calendar" : "calendar-outline"}
-              size={24}
+            <TodayIcon
               color={color}
+              size={20}
             />
           ),
         }}
